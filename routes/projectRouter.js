@@ -16,4 +16,42 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id', validateId, (req, res) => {
+    Projects.get()
+        .then(project => {
+            res.status(200).json(project);
+        })
+        .catch(err => res.status(500).json(err.message))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function validateId(req, res, next) {
+    const { id } = req.params;
+    Projects.get(id)
+      .then(project => {
+        if (project) {
+          req.id = id;
+          next();
+        } else {
+          res.status(400).json({message: "No project with that ID was found"});
+        }
+      })
+      .catch(err => {
+        console.log("validateId error: ", err);
+        res.status(500).json(err.message);
+      });
+  };
+
 module.exports = router;
