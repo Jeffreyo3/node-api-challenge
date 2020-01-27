@@ -85,7 +85,16 @@ router.put('/:id', validateId, (req, res) => {
 })
 
 // DELETE
-
+router.delete('/:id', validateId, (req, res) => {
+    const { id }  = req.params;
+    Projects.remove(id)
+        .then(remove => {
+            res.status(200).json(`Removed ${remove} item from the database`);
+        })
+        .catch(err => {
+            res.status(500).json(err.message);
+        });
+})
 
 
 
