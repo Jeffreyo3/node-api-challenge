@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
 })
 
 router.post('/:id', validateId, (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     let newAction = req.body;
     newAction = { project_id: id, ...newAction };
     if (!newAction.notes || !newAction.description) {
@@ -66,6 +66,25 @@ router.post('/:id', validateId, (req, res) => {
             });
     }
 });
+
+// PUT
+router.put('/:id', validateId, (req, res) => {
+    const updateProject = req.body;
+    const { id } = req.params;
+    if (!updateProject.name || !updateProject.description) {
+        res.status(400).json({ message: "You must include a name and description" })
+    } else {
+        Projects.update(id, updateProject)
+            .then(update => {
+                res.status(201).json(update)
+            })
+            .catch(err => {
+                res.status(500).json(err.message);
+            });
+    }
+})
+
+// DELETE
 
 
 
