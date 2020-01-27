@@ -16,7 +16,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', validateId, (req, res) => {
-    Projects.get()
+    const { id } = req.params;
+    Projects.get(id)
         .then(project => {
             res.status(200).json(project);
         })
@@ -95,11 +96,6 @@ router.delete('/:id', validateId, (req, res) => {
             res.status(500).json(err.message);
         });
 })
-
-
-
-
-
 
 
 
