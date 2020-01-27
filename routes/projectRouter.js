@@ -50,6 +50,23 @@ router.post('/', (req, res) => {
     }
 })
 
+router.post('/:id', validateId, (req, res) => {
+    const {id} = req.params;
+    let newAction = req.body;
+    newAction = { project_id: id, ...newAction };
+    if (!newAction.notes || !newAction.description) {
+        res.status(400).json({ message: "You must include a notes and description" })
+    } else {
+        Actions.insert(newAction)
+            .then(action => {
+                res.status(201).json(action)
+            })
+            .catch(err => {
+                res.status(500).json(err.message);
+            });
+    }
+});
+
 
 
 
