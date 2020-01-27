@@ -28,8 +28,8 @@ router.get('/:id', validateId, (req, res) => {
 // PUT
 router.put('/:id', validateId, (req, res) => {
     const { id } = req.params;
-    const {project_id} = req.params;
-    let updateAction = {project_id: project_id, ...req.body};
+    const { project_id } = req.params;
+    let updateAction = { project_id: project_id, ...req.body };
 
     if (!updateAction.notes || !updateAction.description) {
         res.status(400).json({ message: "You must include a notes and description" })
@@ -45,7 +45,16 @@ router.put('/:id', validateId, (req, res) => {
 })
 
 // DELETE 
-
+router.delete('/:id', validateId, (req, res) => {
+    const { id } = req.params;
+    Actions.remove(id)
+        .then(remove => {
+            res.status(200).json(`Removed ${remove} action from the database`);
+        })
+        .catch(err => {
+            res.status(500).json(err.message);
+        });
+})
 
 
 

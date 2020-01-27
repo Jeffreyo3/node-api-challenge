@@ -90,7 +90,7 @@ router.delete('/:id', validateId, (req, res) => {
     const { id }  = req.params;
     Projects.remove(id)
         .then(remove => {
-            res.status(200).json(`Removed ${remove} item from the database`);
+            res.status(200).json(`Removed ${remove} project from the database`);
         })
         .catch(err => {
             res.status(500).json(err.message);
