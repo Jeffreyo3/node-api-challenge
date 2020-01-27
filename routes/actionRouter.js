@@ -20,8 +20,35 @@ router.get('/:id', validateId, (req, res) => {
         .then(project => {
             res.status(200).json(project);
         })
-        .catch(err => res.status(500).json(err.message))
+        .catch(err => {
+            res.status(500).json(err.message);
+        });
+});
+
+// PUT
+router.put('/:id', validateId, (req, res) => {
+    const { id } = req.params;
+    const {project_id} = req.params;
+    let updateAction = {project_id: project_id, ...req.body};
+
+    if (!updateAction.notes || !updateAction.description) {
+        res.status(400).json({ message: "You must include a notes and description" })
+    } else {
+        Actions.update(id, updateAction)
+            .then(action => {
+                res.status(201).json(action);
+            })
+            .catch(err => {
+                res.status(500).json(err.message);
+            });
+    }
 })
+
+// DELETE 
+
+
+
+
 
 
 //// custom middleware to validate ID ////
